@@ -2,9 +2,6 @@
   "buildCommand": "echo 'Static site - no build needed'",
   "outputDirectory": "frontend",
   "public": false,
-  "env": {
-    "VITE_BACKEND_URL": "@vite_backend_url"
-  },
   "headers": [
     {
       "source": "/(.*)",
