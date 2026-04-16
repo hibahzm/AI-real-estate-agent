@@ -32,10 +32,10 @@ An LLM-powered real estate agent that combines natural language processing with 
 
 ### Tech Stack
 - **Backend**: FastAPI + Python
-- **Frontend**: Vanilla JavaScript + Chart.js
+- **Frontend**: HTML
 - **ML Model**: Gradient Boosting Regressor (sklearn)
 - **LLM**: OpenAI GPT-4o-mini
-- **Data**: Ames Housing CSV (Iowa, 2006-2010)
+- **Data**: Ames Housing CSV
 
 ### Request Flow
 ```
@@ -62,42 +62,8 @@ User Input
 ## Quick Start
 
 ### Prerequisites
-- Python 3.10+
-- OpenAI API key (get free credits at openai.com)
-
-### 1. Backend Setup
-
-```bash
-cd backend
-
-# Install dependencies
-pip install -r requirements.txt
-# or with uv: uv sync
-
-# Create .env with your keys
-cp .env.example .env
-# Edit .env and add: OPENAI_API_KEY=sk-...
-
-# Start server
-uv run uvicorn app.main:app --reload --port 8000
-```
-
-Server runs at: `http://localhost:8000`
-
-Health check: `curl http://localhost:8000/health`
-
-### 2. Frontend Setup
-
-```bash
-cd frontend
-
-# Open in browser (or use live server)
-open index.html
-```
-
-Frontend connects to: `http://127.0.0.1:8000`
-
----
+- Python 3.11+
+- OpenAI API key (openai.com)
 
 ## Try These Examples
 
@@ -263,13 +229,6 @@ curl -X POST http://localhost:8000/api/v1/predict \
 ✅ Frontend-backend communication  
 ✅ Real-world data workflow  
 
-**Key Technologies:**
-- FastAPI (async, type-safe REST API)
-- Pydantic (data validation)
-- OpenAI API (LLM integration)
-- Scikit-learn (ML model)
-- Vanilla JS (frontend)
-
 ---
 
 ##  Deployment
@@ -277,7 +236,6 @@ curl -X POST http://localhost:8000/api/v1/predict \
 ### Backend (Railway)
 
 ### Frontend (Vercel)
-Push `frontend/` folder to Vercel—automatic deployment.
 
 ---
 
@@ -289,5 +247,3 @@ Push `frontend/` folder to Vercel—automatic deployment.
 
 ---
 
-
-**Built with ❤️ using LLM + ML** 
