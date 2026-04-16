@@ -11,19 +11,19 @@ from functools import lru_cache
 
 
 class Settings(BaseSettings):
-    # Required API keys — app will NOT start if these are missing
     openai_api_key: str
-    supabase_url: str
-    supabase_key: str
 
-    # File paths — have sensible defaults, can be overridden in .env
+    # Optional Supabase keys — for logging/analytics (disabled for demo)
+    supabase_url: str | None = None
+    supabase_key: str | None = None
+
     model_file_path: str = "saved_model/trained_house_price_model.pkl"
     training_stats_path: str = "saved_model/training_statistics.json"
 
     class Config:
-        env_file = ".env"           # loads from .env file automatically
+        env_file = ".env"           
         env_file_encoding = "utf-8"
-        case_sensitive = False      # OPENAI_API_KEY and openai_api_key both work
+        case_sensitive = False      
 
 
 @lru_cache()

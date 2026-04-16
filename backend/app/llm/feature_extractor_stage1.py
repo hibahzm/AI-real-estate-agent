@@ -1,18 +1,3 @@
-"""
-feature_extractor_stage1.py — Stage 1 of the LLM prompt chain.
-
-Converts a natural language property description into structured feature
-values that match the 10 features the ML model was trained on.
-
-Two prompt variants for A/B testing (assignment requirement):
-  Version 1 — Direct rule-based extraction
-  Version 2 — Chain-of-thought with domain reasoning
-
-To compare: call extract_features(query, prompt_version=1) and
-extract_features(query, prompt_version=2) on the same 3+ queries,
-log results, and pick the winner with evidence.
-"""
-
 import json
 import logging
 from typing import Optional
@@ -182,6 +167,7 @@ def extract_features(user_query: str, prompt_version: int = 1) -> ExtractionResu
             response_format={"type": "json_object"},
             temperature=0.1,   # low = consistent, deterministic extraction
             max_tokens=500,
+            timeout=15,  # 15 second timeout to prevent hanging
         )
 
         raw = response.choices[0].message.content

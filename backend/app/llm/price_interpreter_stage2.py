@@ -1,7 +1,3 @@
-"""
-price_interpreter_stage2.py — Stage 2 of the LLM prompt chain.
-"""
-
 import logging
 from openai import OpenAI, APIError, RateLimitError
 
@@ -103,6 +99,7 @@ def interpret_prediction(
             ],
             temperature=0.6,
             max_tokens=250,
+            timeout=15,  # 15 second timeout to prevent hanging
         )
         return response.choices[0].message.content.strip()
 

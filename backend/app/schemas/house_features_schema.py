@@ -1,28 +1,3 @@
-"""
-house_features_schema.py — Data shapes for house properties.
-
-The 10 features here MUST match SELECTED_FEATURES in the training notebook
-(ames_housing_model_training.py) exactly.  If a field name changes here it
-must also change in the notebook — and you need to retrain the model.
-
-Field name → notebook column name mapping:
-  overall_quality   → OverallQual
-  gr_liv_area       → GrLivArea
-  garage_cars       → GarageCars
-  total_basement_sf → TotalBsmtSF
-  full_bath_count   → FullBath
-  year_built        → YearBuilt
-  lot_area          → LotArea
-  neighborhood      → Neighborhood
-  exter_qual        → ExterQual
-  kitchen_qual      → KitchenQual
-
-NOTE: the sklearn pipeline receives a DataFrame with the original
-column names (OverallQual, GrLivArea, …) not the snake_case API names.
-The price_predictor.py converts the snake_case dict back to
-original column names before calling pipeline.predict().
-"""
-
 from pydantic import BaseModel, Field
 from typing import Optional
 
@@ -117,7 +92,7 @@ class ExtractionResult(BaseModel):
 
 class PredictionRequest(BaseModel):
     """Request body for POST /api/v1/extract."""
-    user_query:     str = Field(..., min_length=5,
+    user_query:     str = Field(..., min_length=2,
                                 description="Natural language property description")
     prompt_version: int = Field(1, ge=1, le=2,
                                 description="Stage 1 prompt variant: 1 or 2")
@@ -125,5 +100,5 @@ class PredictionRequest(BaseModel):
 
 class InsightRequest(BaseModel):
     """Request body for POST /api/v1/insights."""
-    user_query: str = Field(..., min_length=5,
+    user_query: str = Field(..., min_length=2,
                             description="A market question")

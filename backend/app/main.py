@@ -1,17 +1,3 @@
-"""
-main.py — FastAPI application entry point.
-
-This file:
-  1. Creates the FastAPI app
-  2. Loads the ML model at startup (once, not on every request)
-  3. Registers the route handlers
-  4. Sets up CORS so the Streamlit frontend can call the API
-  5. Provides a /health endpoint for monitoring
-
-To run:
-    uv run uvicorn app.main:app --reload --port 8000
-"""
-
 import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI

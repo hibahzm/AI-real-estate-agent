@@ -1,15 +1,3 @@
-"""
-price_predictor.py — Loads the trained ML pipeline and runs price predictions.
-
-The model is loaded ONCE at application startup (not on every request).
-This is critical for performance — loading a sklearn pipeline takes ~200ms.
-
-The saved model file contains the FULL pipeline:
-  preprocessing (impute + scale + encode) + trained regressor
-
-So when we call predict(), we just pass a raw feature dict and it handles everything.
-"""
-
 import json
 import logging
 import pandas as pd

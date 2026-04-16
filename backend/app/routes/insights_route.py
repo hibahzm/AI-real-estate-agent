@@ -1,25 +1,11 @@
-"""
-insights_route.py — FastAPI route for market insight queries (BONUS feature).
-
-This handles questions like:
-  - "What are the most expensive neighborhoods?"
-  - "How does garage size affect home value?"
-  - "Which areas offer the best value?"
-
-Instead of running an ML prediction, this feeds precomputed statistics from
-training_statistics.json to the LLM and asks it to narrate real findings.
-
-Every number in the response traces back to the actual training data.
-"""
-
 import logging
 from fastapi import APIRouter, HTTPException
 from openai import OpenAI, APIError
+from pydantic import BaseModel
 
 from app.schemas.house_features_schema import InsightRequest
 from app.schemas.api_response_schema import InsightResponse
 from app.ml.price_predictor import get_training_stats
-from app.database.supabase_logger import log_insight
 from app.config import settings
 
 logger = logging.getLogger(__name__)
@@ -137,12 +123,12 @@ async def get_market_insight(request: InsightRequest):
 
         insight_text = response.choices[0].message.content.strip()
 
-        # Log to Supabase
-        log_insight(
-            user_query=request.user_query,
-            insight_response=insight_text,
-            success=True
-        )
+        # Log to Supabase (disabled for demo — uncomment to enable analytics)
+        # log_insight(
+        #     user_query=request.user_query,
+        #     insight_response=insight_text,
+        #     success=True
+        # )
 
         return InsightResponse(
             query=request.user_query,
@@ -152,10 +138,54 @@ async def get_market_insight(request: InsightRequest):
 
     except APIError as e:
         logger.error(f"Insights: OpenAI API error: {e}")
-        log_insight(request.user_query, None, False)
+        # log_insight(request.user_query, None, False)
         raise HTTPException(status_code=503, detail="AI service temporarily unavailable")
 
     except Exception as e:
         logger.error(f"Insights route failed: {e}", exc_info=True)
-        log_insight(request.user_query, None, False)
+        # log_insight(request.user_query, None, False)
         raise HTTPException(status_code=500, detail=f"Insight generation failed: {str(e)}")
+
+
+# ── GET /stats — Serve training statistics to frontend ──────────────────────
+@router.get("/stats")
+async def get_market_stats():
+    """
+    Returns the precomputed training statistics from training_statistics.json.
+
+    This endpoint serves real market data to the frontend so charts and insights
+    are based on actual data instead of hardcoded numbers.
+
+    Example response:
+        {
+          "median_price": 160000,
+          "mean_price": 180796,
+          "avg_price_by_neighborhood": {
+            "NoRidge": 330319,
+            "NridgHt": 322018,
+            ...
+          },
+          "avg_price_by_quality": {
+            "1": 48725,
+            "2": 52325,
+            ...
+          }
+        }
+
+    Frontend usage:
+        fetch('/api/v1/stats')
+          .then(r => r.json())
+          .then(data => {
+            // Use data.avg_price_by_neighborhood for charts
+            // Use data.avg_price_by_quality for quality pricing
+          })
+    """
+    try:
+        stats = get_training_stats()
+        return stats
+    except Exception as e:
+        logger.error(f"Failed to retrieve training statistics: {e}")
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to retrieve market statistics"
+        )
