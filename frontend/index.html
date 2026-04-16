@@ -852,9 +852,9 @@ async function fetchMarketStats() {
 // ── Main flow ─────────────────────────────────────────────────
 async function go() {
   const q = document.getElementById("query-input").value.trim();
-  if (!q) {
+  if (!q || q.length < 3) {
     document.getElementById("result").innerHTML =
-      `<div class="err-box">Please type a question or property description first.</div>`;
+      `<div class="err-box">Please type at least 3 characters to continue.</div>`;
     return;
   }
 
