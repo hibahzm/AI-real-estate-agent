@@ -1,0 +1,41 @@
+# Secrets — NEVER commit these
+.env
+*.env
+
+# Python virtual environments (created by uv)
+.venv/
+venv/
+
+# Python bytecode cache
+__pycache__/
+*.py[cod]
+*.pyc
+
+# uv lock file — DO commit this (it pins exact dependency versions)
+# uv.lock  ← intentionally NOT ignored
+
+# Trained model files — commit these if <100MB, otherwise use Git LFS
+# backend/saved_model/*.pkl  ← intentionally NOT ignored (it's needed in production)
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# macOS metadata
+.DS_Store
+
+# IDE folders
+.vscode/
+.idea/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Test cache
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Docker: don't push these to git
+*.tar
