@@ -699,8 +699,12 @@
 
 <script>
 
-// Backend URL with fallback for local development
-const B = (window.__BACKEND__ || "http://localhost:8000")
+// Backend URL — set after deploying to Railway/Render
+// Change this URL to your deployed backend, e.g.:
+//   const B = "https://ai-real-estate-agent.railway.app"
+// For local testing:
+//   const B = "http://localhost:8000"
+const B = "https://real-estate-agent-production-370f.up.railway.app"
 
 // ── Static data ──────────────────────────────────────────────
 const NEIGHBORHOODS = [
